@@ -95,7 +95,7 @@ export default function Tracker({ session, manifest, playthroughIndex, mode, spo
 
     if (zonesWithResults.length === 0 && searchQuery) {
       return (
-        <div style={{ textAlign: 'center', padding: '2rem', color: '#333', fontSize: '0.8rem', fontFamily: "'DM Mono', monospace" }}>
+        <div style={{ textAlign: 'center', padding: '2rem', color: '#6f6f6f', fontSize: '0.8rem', fontFamily: "'DM Mono', monospace" }}>
           Sin resultados para "{searchQuery}"
         </div>
       );
@@ -105,7 +105,7 @@ export default function Tracker({ session, manifest, playthroughIndex, mode, spo
       <div key={zone.name} style={{ marginBottom: '1.5rem' }}>
         <p style={{ fontFamily: "'DM Mono', monospace", fontSize: '0.6rem', letterSpacing: '0.2em', color: '#2a2a2a', textTransform: 'uppercase', marginBottom: '0.6rem', paddingLeft: '2px' }}>
           {zone.name}
-          {searchQuery && <span style={{ color: '#444', marginLeft: '8px' }}>({zone.filteredSteps.length})</span>}
+          {searchQuery && <span style={{ color: '#7d7d7d', marginLeft: '8px' }}>({zone.filteredSteps.length})</span>}
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
           {zone.filteredSteps.map(step => (
@@ -135,7 +135,7 @@ export default function Tracker({ session, manifest, playthroughIndex, mode, spo
       <div style={{ background: '#0d0d0d', border: '1px solid #1e1e1e', borderRadius: '10px', padding: '1.25rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '0.75rem' }}>
           <div>
-            <p style={{ fontFamily: "'DM Mono', monospace", fontSize: '0.62rem', letterSpacing: '0.15em', color: '#333', textTransform: 'uppercase', margin: '0 0 2px' }}>Progreso global</p>
+            <p style={{ fontFamily: "'DM Mono', monospace", fontSize: '0.62rem', letterSpacing: '0.15em', color: '#6f6f6f', textTransform: 'uppercase', margin: '0 0 2px' }}>Progreso global</p>
             <p style={{ fontFamily: "'DM Mono', monospace", fontSize: '0.6rem', color: '#2a2a2a', margin: 0 }}>{doneCount} / {totalSteps} pasos</p>
           </div>
           <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '2rem', color: progress === 100 ? '#f5a623' : '#f0ece4', letterSpacing: '0.05em', lineHeight: 1 }}>{progress}%</span>
@@ -241,7 +241,7 @@ function StepItem({ step, done, disabled, onToggle, spoilerMode, searchQuery }: 
                 </a>
               )}
               {!videoId && (
-                <p style={{ color: '#555', fontSize: '0.72rem', margin: 0 }}>Vídeo no disponible.</p>
+                <p style={{ color: '#8c8c8c', fontSize: '0.72rem', margin: 0 }}>Vídeo no disponible.</p>
               )}
             </div>
             {videoOpen && videoId && (

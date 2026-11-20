@@ -61,7 +61,7 @@ export default function GamePicker({ value, onChange, label, accentHex, initialN
               tabIndex={0}
               onClick={e => { e.stopPropagation(); setCurrent(null); onChange(null); }}
               onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.stopPropagation(); setCurrent(null); onChange(null); } }}
-              style={{ color: '#444', fontSize: '0.7rem', padding: '0.25rem 0.5rem', cursor: 'pointer' }}
+              style={{ color: '#7d7d7d', fontSize: '0.7rem', padding: '0.25rem 0.5rem', cursor: 'pointer' }}
             >
               ✕
             </span>
@@ -80,8 +80,8 @@ export default function GamePicker({ value, onChange, label, accentHex, initialN
             style={{ width: '100%', background: '#080808', border: '1px solid #1e1e1e', borderRadius: '6px', color: '#f0ece4', fontSize: '0.85rem', padding: '0.55rem 0.75rem', outline: 'none', boxSizing: 'border-box', marginBottom: '0.5rem' }}
           />
           <div style={{ maxHeight: '220px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
-            {loading && <p style={{ color: '#444', fontSize: '0.75rem', textAlign: 'center', padding: '0.5rem 0' }}>Buscando...</p>}
-            {!loading && results.length === 0 && query.length >= 3 && <p style={{ color: '#333', fontSize: '0.75rem', textAlign: 'center', padding: '0.5rem 0' }}>Sin resultados</p>}
+            {loading && <p style={{ color: '#7d7d7d', fontSize: '0.75rem', textAlign: 'center', padding: '0.5rem 0' }}>Buscando...</p>}
+            {!loading && results.length === 0 && query.length >= 3 && <p style={{ color: '#6f6f6f', fontSize: '0.75rem', textAlign: 'center', padding: '0.5rem 0' }}>Sin resultados</p>}
             {results.map(r => (
               <button
                 key={r.id}
@@ -104,7 +104,7 @@ export default function GamePicker({ value, onChange, label, accentHex, initialN
             <button
               type="button"
               onClick={() => { setOpen(false); setQuery(''); }}
-              style={{ background: 'transparent', border: '1px solid #1e1e1e', color: '#555', fontSize: '0.7rem', padding: '0.3rem 0.7rem', borderRadius: '5px', cursor: 'pointer' }}
+              style={{ background: 'transparent', border: '1px solid #1e1e1e', color: '#8c8c8c', fontSize: '0.7rem', padding: '0.3rem 0.7rem', borderRadius: '5px', cursor: 'pointer' }}
             >
               Cancelar
             </button>

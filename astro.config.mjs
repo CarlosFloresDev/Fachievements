@@ -2,13 +2,14 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
-import vercel from '@astrojs/vercel';
+import cloudflare from '@astrojs/cloudflare';
 
 export default defineConfig({
+  site: 'https://fachievements.pages.dev',
   output: 'server',
-  adapter: vercel(),
+  adapter: cloudflare({ imageService: 'passthrough' }),
   integrations: [react()],
   vite: {
-    plugins: [tailwindcss()]
-  }
+    plugins: [tailwindcss()],
+  },
 });

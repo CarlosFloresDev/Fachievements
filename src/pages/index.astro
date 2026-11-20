@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import SearchBar from '../components/SearchBar.tsx';
-import { getFeaturedGames } from '../lib/igdb';
+import { getFeaturedGames, getCoversByIds } from '../lib/igdb';
 import { createServerSupabase } from '../lib/supabase';
 import type { FeaturedGame } from '../lib/types';
 
@@ -22,6 +22,16 @@ try {
   stats = { guides: guidesCount ?? 0, completed: stepsCount ?? 0 };
 } catch (e) {
   console.error('[index] stats:', e);
+}
+
+let guides: { id: string; title: string; cover: string | null }[] = [];
+try {
+  const { data } = await createServerSupabase().from('game_guides').select('igdb_id, manifest->>title, updated_at').order('updated_at', { ascending: false });
+  const rows = (data ?? []) as unknown as { igdb_id: string; title: string }[];
+  const covers = rows.length ? await getCoversByIds(rows.map(r => Number(r.igdb_id))) : {};
+  guides = rows.map(r => ({ id: String(r.igdb_id), title: r.title, cover: covers[Number(r.igdb_id)] ?? null }));
+} catch (e) {
+  console.error('[index] guides:', e);
 }
 
 // 12 carátulas para el fondo (las mismas que destacados, sin requests extra)
@@ -51,7 +61,7 @@ const bgCovers = featured.slice(0, 12).map(g => g.coverUrl).filter(Boolean) as s
         Consigue<br/>
         <span class="hero-shine">el Platino.</span>
       </h1>
-      <p style="font-size:1rem; color:#484848; font-weight:400; max-width:420px; line-height:1.65;">
+      <p style="font-size:1rem; color:#9a9a9a; font-weight:400; max-width:420px; line-height:1.65;">
         Busca cualquier juego, sigue la guía paso a paso y no pierdas ningún trofeo.
       </p>
 
@@ -67,12 +77,35 @@ const bgCovers = featured.slice(0, 12).map(g => g.coverUrl).filter(Boolean) as s
 
     <SearchBar client:load />
 
+    {guides.length > 0 && (
+      <section id="guias" style="margin-top:4rem; scroll-margin-top:80px;">
+        <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1.5rem;">
+          <span style="font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.18em; color:#f5a623; text-transform:uppercase;">Guías completas</span>
+          <div style="flex:1; height:1px; background:#2a2a2a;"></div>
+          <span style="font-family:'DM Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; color:#8c8c8c; text-transform:uppercase;">Listas para el platino</span>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(160px, 1fr)); gap:1rem;">
+          {guides.map(g => (
+            <a href={`/guias/${g.id}`} class="featured-card" style="position:relative; display:block; border-radius:10px; overflow:hidden; background:#0d0d0d; border:1px solid #3a2a0d; text-decoration:none; transition:border-color 0.2s, transform 0.2s, box-shadow 0.2s;">
+              <div style="aspect-ratio:3/4; overflow:hidden; background:#111;">
+                <img src={g.cover || 'https://placehold.co/300x400/0d0d0d/222?text=?'} alt={g.title} style="width:100%; height:100%; object-fit:cover;" loading="lazy" />
+              </div>
+              <span style="position:absolute; top:0.6rem; left:0.6rem; background:#f5a623; color:#000; font-size:0.58rem; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; padding:3px 7px; border-radius:4px;">Guía completa</span>
+              <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.1) 55%, transparent 100%); padding:0.75rem; display:flex; flex-direction:column; justify-content:flex-end;">
+                <p style="color:#f0ece4; font-size:0.82rem; font-weight:600; line-height:1.25; margin:0;">{g.title}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
     {featured.length > 0 && (
       <section style="margin-top:4rem;">
         <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1.5rem;">
-          <span style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.18em; color:#333; text-transform:uppercase;">Destacados</span>
+          <span style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.18em; color:#6f6f6f; text-transform:uppercase;">Explorar juegos populares</span>
           <div style="flex:1; height:1px; background:#1a1a1a;"></div>
-          <span style="font-family:'DM Mono',monospace; font-size:0.6rem; letter-spacing:0.12em; color:#2a2a2a; text-transform:uppercase;">Top rated</span>
+          <span style="font-family:'DM Mono',monospace; font-size:0.6rem; letter-spacing:0.12em; color:#6a6a6a; text-transform:uppercase;">Top rated</span>
         </div>
 
         <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:0.85rem;">
@@ -169,7 +202,7 @@ const bgCovers = featured.slice(0, 12).map(g => g.coverUrl).filter(Boolean) as s
     font-family: 'DM Mono', monospace;
     font-size: 0.7rem;
     letter-spacing: 0.1em;
-    color: #555;
+    color:#8c8c8c;
     text-transform: uppercase;
     display: flex;
     align-items: center;
@@ -183,7 +216,7 @@ const bgCovers = featured.slice(0, 12).map(g => g.coverUrl).filter(Boolean) as s
     box-shadow: 0 0 8px #4ade80;
     animation: pulse 2s ease-in-out infinite;
   }
-  .hero-stats .stat-sep { color: #2a2a2a; }
+  .hero-stats .stat-sep { color:#6a6a6a; }
   @keyframes pulse {
     0%, 100% { opacity: 1; }
     50%      { opacity: 0.4; }

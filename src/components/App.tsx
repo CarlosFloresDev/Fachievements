@@ -27,7 +27,7 @@ export default function App({ manifest, meta, igdbId, view = 'tracker' }: AppPro
   }, []);
 
   if (loading) return (
-    <div style={{ textAlign: 'center', padding: '4rem', color: '#444', fontSize: '0.8rem', letterSpacing: '0.15em', textTransform: 'uppercase', fontFamily: "'DM Mono', monospace" }}>
+    <div style={{ textAlign: 'center', padding: '4rem', color: '#7d7d7d', fontSize: '0.8rem', letterSpacing: '0.15em', textTransform: 'uppercase', fontFamily: "'DM Mono', monospace" }}>
       Sincronizando...
     </div>
   );

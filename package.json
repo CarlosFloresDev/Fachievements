@@ -1,7 +1,7 @@
 {
   "name": "fachievements",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "engines": {
     "node": ">=22.12.0"
   },
@@ -10,25 +10,26 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "validate": "node scripts/validate-manifest.mjs"
+    "validate": "node scripts/validate-manifest.mjs",
+    "check": "astro check",
+    "deploy": "astro build && wrangler deploy -c dist/server/wrangler.json"
   },
   "dependencies": {
-    "@astrojs/react": "^5.0.3",
-    "@astrojs/vercel": "^10.0.4",
+    "@astrojs/cloudflare": "^14.4.9",
+    "@astrojs/react": "^7.1.9",
     "@supabase/supabase-js": "^2.103.0",
     "@tailwindcss/vite": "^4.2.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "astro": "^6.1.5",
+    "astro": "^7.4.13",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "tailwindcss": "^4.2.2"
   },
-  "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.60.1"
-  },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
-    "typescript": "^6.0.3"
-  }
+    "typescript": "^6.0.3",
+    "wrangler": "^4.165.0"
+  },
+  "description": "Step-by-step trophy and achievement guides with progress tracking"
 }

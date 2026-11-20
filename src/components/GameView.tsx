@@ -105,8 +105,8 @@ export default function GameView({ session, manifest, meta, igdbId }: GameViewPr
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
           {session ? (
             <>
-              <span style={{ fontSize: '0.7rem', color: '#333', fontFamily: "'DM Mono', monospace" }}>{session.user.email}</span>
-              <a href="/perfil" style={{ background: 'transparent', border: '1px solid #2a2a2a', color: '#555', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '0.4rem 0.8rem', borderRadius: '5px', fontFamily: "'DM Sans', sans-serif", textDecoration: 'none' }}>Mi perfil</a>
+              <span style={{ fontSize: '0.7rem', color: '#6f6f6f', fontFamily: "'DM Mono', monospace" }}>{session.user.email}</span>
+              <a href="/perfil" style={{ background: 'transparent', border: '1px solid #2a2a2a', color: '#8c8c8c', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '0.4rem 0.8rem', borderRadius: '5px', fontFamily: "'DM Sans', sans-serif", textDecoration: 'none' }}>Mi perfil</a>
             </>
           ) : (
             <a href="/perfil" style={{ background: 'rgba(245,166,35,0.08)', border: '1px solid rgba(245,166,35,0.2)', color: '#f5a623', fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '0.45rem 1rem', borderRadius: '6px', fontFamily: "'DM Sans', sans-serif", textDecoration: 'none' }}>
@@ -115,6 +115,17 @@ export default function GameView({ session, manifest, meta, igdbId }: GameViewPr
           )}
         </div>
       </div>
+
+      {!manifest && (
+        <div style={{ background: 'rgba(245,166,35,0.06)', border: '1px solid rgba(245,166,35,0.25)', borderRadius: '10px', padding: '1.25rem 1.5rem', marginBottom: '1.5rem', display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f5a623" strokeWidth="2" style={{ flexShrink: 0 }}><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div style={{ flex: 1, minWidth: '220px' }}>
+            <p style={{ color: '#f0ece4', fontWeight: 700, margin: 0, fontSize: '0.95rem' }}>Todavía no hay guía de platino para este juego</p>
+            <p style={{ color: '#9a9a9a', margin: '4px 0 0', fontSize: '0.82rem' }}>Puedes ver su información y capturas. Mientras tanto, revisa los juegos que ya tienen guía completa.</p>
+          </div>
+          <a href="/#guias" style={{ background: '#f5a623', color: '#000', fontWeight: 700, fontSize: '0.72rem', letterSpacing: '0.08em', textTransform: 'uppercase', padding: '0.6rem 1rem', borderRadius: '6px', textDecoration: 'none' }}>Ver guías disponibles</a>
+        </div>
+      )}
 
       {manifest?.info && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '0.5rem', marginBottom: '1.5rem' }}>
@@ -126,7 +137,7 @@ export default function GameView({ session, manifest, meta, igdbId }: GameViewPr
           ].filter(s => s.value !== undefined && s.value !== null).map(({ label, value }) => (
             <div key={label} style={{ background: '#0d0d0d', border: '1px solid #1e1e1e', borderRadius: '8px', padding: '0.75rem 1rem', textAlign: 'center' }}>
               <p style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '1.4rem', color: '#f5a623', margin: 0, lineHeight: 1 }}>{value}</p>
-              <p style={{ fontSize: '0.62rem', color: '#444', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '3px 0 0' }}>{label}</p>
+              <p style={{ fontSize: '0.62rem', color: '#7d7d7d', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '3px 0 0' }}>{label}</p>
             </div>
           ))}
         </div>
@@ -159,7 +170,7 @@ export default function GameView({ session, manifest, meta, igdbId }: GameViewPr
                   onMouseLeave={e => (e.currentTarget.style.borderColor = '#1a1a1a')}
                   aria-label={`Ampliar captura ${i + 1}`}
                 >
-                  <img src={img} alt={`${meta.name} captura ${i + 1}`} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                  <img src={img} alt={`${meta.name} captura ${i + 1}`} loading="lazy" onError={e => { const b = e.currentTarget.parentElement; if (b) b.style.display = 'none'; }} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                 </button>
               ))}
             </div>
@@ -207,7 +218,7 @@ export default function GameView({ session, manifest, meta, igdbId }: GameViewPr
                           <span style={{ fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '1px 6px', borderRadius: '3px', background: 'rgba(229,69,69,0.1)', color: '#e54545', border: '1px solid rgba(229,69,69,0.2)' }}>Perdible</span>
                         )}
                       </div>
-                      <p style={{ color: '#555', fontSize: '0.8rem', margin: 0, lineHeight: 1.55, fontWeight: 300 }}>{ach.description}</p>
+                      <p style={{ color: '#8c8c8c', fontSize: '0.8rem', margin: 0, lineHeight: 1.55, fontWeight: 300 }}>{ach.description}</p>
                     </div>
                   </div>
                 ))}
@@ -259,7 +270,7 @@ export default function GameView({ session, manifest, meta, igdbId }: GameViewPr
                     onBlur={e => (e.target.style.borderColor = '#1e1e1e')}
                   />
                   {stepSearch && (
-                    <button onClick={() => setStepSearch('')} style={{ position: 'absolute', right: '0.6rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: '#444', cursor: 'pointer', fontSize: '1rem', lineHeight: 1, padding: 0 }}>×</button>
+                    <button onClick={() => setStepSearch('')} style={{ position: 'absolute', right: '0.6rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: '#7d7d7d', cursor: 'pointer', fontSize: '1rem', lineHeight: 1, padding: 0 }}>×</button>
                   )}
                 </div>
               </div>
@@ -289,7 +300,7 @@ export default function GameView({ session, manifest, meta, igdbId }: GameViewPr
                     })}
                   </div>
                   {manifest.playthroughs[activePlaythrough]?.summary && (
-                    <p style={{ fontSize: '0.82rem', color: '#555', margin: 0, lineHeight: 1.6, fontWeight: 300, borderLeft: '2px solid #2a2a2a', paddingLeft: '0.85rem' }}>
+                    <p style={{ fontSize: '0.82rem', color: '#8c8c8c', margin: 0, lineHeight: 1.6, fontWeight: 300, borderLeft: '2px solid #2a2a2a', paddingLeft: '0.85rem' }}>
                       {manifest.playthroughs[activePlaythrough].summary}
                     </p>
                   )}
@@ -364,7 +375,7 @@ function EmptyState({ title, desc }: { title: string; desc: string }) {
   return (
     <div style={{ textAlign: 'center', padding: '4rem 2rem', background: '#0d0d0d', border: '1px dashed #1e1e1e', borderRadius: '12px' }}>
       <p style={{ color: '#f0ece4', fontSize: '0.95rem', fontWeight: 600, marginBottom: '0.4rem' }}>{title}</p>
-      <p style={{ color: '#333', fontSize: '0.8rem', maxWidth: '300px', margin: '0 auto', lineHeight: 1.6 }}>{desc}</p>
+      <p style={{ color: '#6f6f6f', fontSize: '0.8rem', maxWidth: '300px', margin: '0 auto', lineHeight: 1.6 }}>{desc}</p>
     </div>
   );
 }

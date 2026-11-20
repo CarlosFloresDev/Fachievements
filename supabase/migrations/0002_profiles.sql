@@ -1,9 +1,4 @@
-# Migración SQL — Perfiles personalizables
-
-Ejecuta este bloque en **Supabase → SQL Editor → New query → Run**.
-Es seguro de re-ejecutar (idempotente) y repara handles inválidos de ejecuciones previas antes de añadir la constraint.
-
-```sql
+-- Perfiles personalizables (idempotente)
 -- =========================================================
 -- Tabla profiles
 -- =========================================================
@@ -124,6 +119,3 @@ alter table profiles
 alter table profiles
   add constraint profiles_handle_format
   check (handle ~ '^[a-z0-9_]{3,24}$');
-```
-
-Después de correrlo, refresca `/perfil` y verás tu handle ya válido (algo como `tuemail12345abc`). Edítalo desde el panel para ponerle el que quieras.

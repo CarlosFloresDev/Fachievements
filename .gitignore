@@ -40,3 +40,6 @@ yarn.lock
 
 # TypeScript build artifacts
 *.tsbuildinfo
+
+# Cloudflare
+.wrangler/

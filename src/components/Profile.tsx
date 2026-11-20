@@ -258,7 +258,7 @@ export default function Profile({ session }: { session: Session }) {
               {streaks.current > 0 && <span style={{ color: '#666', marginLeft: '0.5rem' }}>· racha {streaks.current}d</span>}
             </p>
             <p style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.7rem', letterSpacing: '0.06em', color: '#f0ece4', margin: 0, lineHeight: 1 }}>{username}</p>
-            <p style={{ fontSize: '0.7rem', color: '#444', margin: '4px 0 0', fontFamily: "'DM Mono',monospace" }}>
+            <p style={{ fontSize: '0.7rem', color: '#7d7d7d', margin: '4px 0 0', fontFamily: "'DM Mono',monospace" }}>
               @{profile?.handle ?? '—'}
             </p>
             {profile?.bio && !editing && (
@@ -285,7 +285,7 @@ export default function Profile({ session }: { session: Session }) {
             )}
             <button
               onClick={() => supabase.auth.signOut()}
-              style={{ background: 'transparent', border: '1px solid #1e1e1e', color: '#444', fontSize: '0.68rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '0.5rem 0.85rem', borderRadius: '6px', cursor: 'pointer', fontFamily: "'DM Sans',sans-serif" }}
+              style={{ background: 'transparent', border: '1px solid #1e1e1e', color: '#7d7d7d', fontSize: '0.68rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '0.5rem 0.85rem', borderRadius: '6px', cursor: 'pointer', fontFamily: "'DM Sans',sans-serif" }}
             >
               Salir
             </button>
@@ -461,7 +461,7 @@ export default function Profile({ session }: { session: Session }) {
                 <div style={{ width: '40px', height: '40px', borderRadius: '8px', background: accent.soft, border: `1px solid ${accent.hex}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: accent.hex, fontSize: '1.2rem' }}>★</div>
                 <div style={{ flex: 1 }}>
                   <p style={{ color: '#f0ece4', fontWeight: 600, fontSize: '0.85rem', margin: '0 0 2px' }}>{favoriteAch.description}</p>
-                  <p style={{ color: '#555', fontSize: '0.7rem', margin: 0 }}>{favoriteAch.gameName}</p>
+                  <p style={{ color: '#8c8c8c', fontSize: '0.7rem', margin: 0 }}>{favoriteAch.gameName}</p>
                 </div>
               </a>
             </ShowcaseCard>
@@ -495,7 +495,7 @@ export default function Profile({ session }: { session: Session }) {
 
       {/* STATS */}
       <div>
-        <p style={{ fontFamily: "'DM Mono',monospace", fontSize: '0.62rem', letterSpacing: '0.18em', color: '#333', textTransform: 'uppercase', marginBottom: '0.85rem' }}>Estadísticas</p>
+        <p style={{ fontFamily: "'DM Mono',monospace", fontSize: '0.62rem', letterSpacing: '0.18em', color: '#6f6f6f', textTransform: 'uppercase', marginBottom: '0.85rem' }}>Estadísticas</p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '0.6rem' }}>
           <StatCard value={timestamps.length} label={'Pasos\ncompletados'} color={accent.hex} />
           <StatCard value={activeGames.length} label={'Juegos\nen progreso'} color="#4a9eff" />
@@ -506,7 +506,7 @@ export default function Profile({ session }: { session: Session }) {
 
       {/* BADGES */}
       <div>
-        <p style={{ fontFamily: "'DM Mono',monospace", fontSize: '0.62rem', letterSpacing: '0.18em', color: '#333', textTransform: 'uppercase', marginBottom: '0.85rem' }}>Insignias</p>
+        <p style={{ fontFamily: "'DM Mono',monospace", fontSize: '0.62rem', letterSpacing: '0.18em', color: '#6f6f6f', textTransform: 'uppercase', marginBottom: '0.85rem' }}>Insignias</p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '0.5rem' }}>
           {badges.map(b => (
             <div key={b.id} title={b.description} style={{ display: 'flex', alignItems: 'center', gap: '0.7rem', background: '#0a0a0a', border: `1px solid ${b.unlocked ? accent.hex + '44' : '#141414'}`, borderRadius: '8px', padding: '0.7rem 0.9rem', opacity: b.unlocked ? 1 : 0.4 }}>
@@ -515,7 +515,7 @@ export default function Profile({ session }: { session: Session }) {
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <p style={{ color: b.unlocked ? '#f0ece4' : '#444', fontSize: '0.78rem', fontWeight: 600, margin: 0 }}>{b.title}</p>
-                <p style={{ color: '#444', fontSize: '0.66rem', margin: '2px 0 0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{b.description}</p>
+                <p style={{ color: '#7d7d7d', fontSize: '0.66rem', margin: '2px 0 0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{b.description}</p>
               </div>
             </div>
           ))}
@@ -525,7 +525,7 @@ export default function Profile({ session }: { session: Session }) {
       {/* ACTIVITY */}
       {activity.length > 0 && (
         <div>
-          <p style={{ fontFamily: "'DM Mono',monospace", fontSize: '0.62rem', letterSpacing: '0.18em', color: '#333', textTransform: 'uppercase', marginBottom: '0.85rem' }}>Actividad reciente</p>
+          <p style={{ fontFamily: "'DM Mono',monospace", fontSize: '0.62rem', letterSpacing: '0.18em', color: '#6f6f6f', textTransform: 'uppercase', marginBottom: '0.85rem' }}>Actividad reciente</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
             {activity.map(a => (
               <div key={a.step_id + a.created_at} style={{ display: 'flex', alignItems: 'center', gap: '0.7rem', background: '#0a0a0a', border: '1px solid #141414', borderRadius: '7px', padding: '0.6rem 0.9rem' }}>
@@ -533,7 +533,7 @@ export default function Profile({ session }: { session: Session }) {
                 <p style={{ flex: 1, fontSize: '0.78rem', color: '#aaa', margin: 0 }}>
                   Paso completado en <strong style={{ color: '#f0ece4' }}>{a.gameName ?? 'un juego'}</strong>
                 </p>
-                <span style={{ fontFamily: "'DM Mono',monospace", fontSize: '0.65rem', color: '#444' }}>{relativeTime(a.created_at)}</span>
+                <span style={{ fontFamily: "'DM Mono',monospace", fontSize: '0.65rem', color: '#7d7d7d' }}>{relativeTime(a.created_at)}</span>
               </div>
             ))}
           </div>
@@ -542,11 +542,11 @@ export default function Profile({ session }: { session: Session }) {
 
       {/* JUEGOS EN PROGRESO */}
       <div>
-        <p style={{ fontFamily: "'DM Mono',monospace", fontSize: '0.62rem', letterSpacing: '0.18em', color: '#333', textTransform: 'uppercase', marginBottom: '0.85rem' }}>En progreso</p>
+        <p style={{ fontFamily: "'DM Mono',monospace", fontSize: '0.62rem', letterSpacing: '0.18em', color: '#6f6f6f', textTransform: 'uppercase', marginBottom: '0.85rem' }}>En progreso</p>
         {activeGames.length === 0 ? (
           <div style={{ background: '#0a0a0a', border: '1px dashed #1a1a1a', borderRadius: '10px', padding: '2.5rem 2rem', textAlign: 'center' }}>
             <p style={{ color: '#666', fontSize: '0.95rem', margin: '0 0 0.4rem', fontWeight: 500 }}>Tu colección está vacía</p>
-            <p style={{ color: '#333', fontSize: '0.78rem', margin: 0, maxWidth: '320px', marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.6 }}>Busca un juego, marca pasos a medida que los consigues, y este perfil se llenará con tus carátulas y progreso.</p>
+            <p style={{ color: '#6f6f6f', fontSize: '0.78rem', margin: 0, maxWidth: '320px', marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.6 }}>Busca un juego, marca pasos a medida que los consigues, y este perfil se llenará con tus carátulas y progreso.</p>
             <a href="/" style={{ display: 'inline-block', marginTop: '1.25rem', background: accent.hex, color: '#000', fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', textDecoration: 'none', padding: '0.6rem 1.2rem', borderRadius: '6px' }}>Buscar un juego →</a>
           </div>
         ) : (
@@ -571,7 +571,7 @@ export default function Profile({ session }: { session: Session }) {
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.75rem', marginBottom: '0.75rem' }}>
                     <div style={{ minWidth: 0 }}>
                       <p style={{ color: '#f0ece4', fontSize: '0.88rem', fontWeight: 600, margin: '0 0 3px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{game.name}</p>
-                      <p style={{ fontFamily: "'DM Mono',monospace", fontSize: '0.6rem', color: '#333', margin: 0 }}>{game.completedSteps} / {game.totalSteps > 0 ? game.totalSteps : '?'} pasos</p>
+                      <p style={{ fontFamily: "'DM Mono',monospace", fontSize: '0.6rem', color: '#6f6f6f', margin: 0 }}>{game.completedSteps} / {game.totalSteps > 0 ? game.totalSteps : '?'} pasos</p>
                     </div>
                     <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '1.4rem', color: game.percentage === 100 ? accent.hex : '#f0ece4', letterSpacing: '0.05em', lineHeight: 1, flexShrink: 0 }}>{game.percentage}%</span>
                   </div>
@@ -617,7 +617,7 @@ function StatCard({ value, label, color }: { value: number; label: string; color
   return (
     <div style={{ background: '#0a0a0a', border: '1px solid #141414', borderRadius: '10px', padding: '1.1rem 0.75rem', textAlign: 'center' }}>
       <p style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: '2.2rem', color, margin: 0, lineHeight: 1 }}>{value}</p>
-      <p style={{ fontSize: '0.6rem', color: '#333', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: '5px', whiteSpace: 'pre-line', lineHeight: 1.4 }}>{label}</p>
+      <p style={{ fontSize: '0.6rem', color: '#6f6f6f', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: '5px', whiteSpace: 'pre-line', lineHeight: 1.4 }}>{label}</p>
     </div>
   );
 }

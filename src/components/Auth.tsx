@@ -42,7 +42,7 @@ export default function Auth() {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         <div>
-          <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555', marginBottom: '0.4rem' }}>
+          <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#8c8c8c', marginBottom: '0.4rem' }}>
             Correo
           </label>
           <input
@@ -58,7 +58,7 @@ export default function Auth() {
           />
         </div>
         <div>
-          <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#555', marginBottom: '0.4rem' }}>
+          <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#8c8c8c', marginBottom: '0.4rem' }}>
             Contraseña
           </label>
           <input

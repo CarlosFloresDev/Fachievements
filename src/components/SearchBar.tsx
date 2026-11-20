@@ -71,6 +71,14 @@ export default function SearchBar() {
   const [loading, setLoading] = useState(false);
   const [focused, setFocused] = useState(false);
   const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const [withGuide, setWithGuide] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    fetch('/api/guides')
+      .then(r => (r.ok ? r.json() : []))
+      .then((ids: string[]) => setWithGuide(new Set(ids)))
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     if (query.length < 3) {
@@ -165,9 +173,12 @@ export default function SearchBar() {
                 />
               </div>
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.3) 50%, transparent 100%)', padding: '0.75rem', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+                {withGuide.has(String(game.id)) && (
+                  <span style={{ position: 'absolute', top: '0.6rem', left: '0.6rem', background: '#f5a623', color: '#000', fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '3px 7px', borderRadius: '4px' }}>Guía completa</span>
+                )}
                 <p style={{ color: '#f0ece4', fontSize: '0.78rem', fontWeight: 600, lineHeight: 1.3, margin: 0 }}>{game.name}</p>
                 {hoveredId === game.id && (
-                  <p style={{ color: '#f5a623', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: '4px' }}>Ver guía →</p>
+                  <p style={{ color: '#f5a623', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: '4px' }}>{withGuide.has(String(game.id)) ? 'Ver guía →' : 'Ver juego →'}</p>
                 )}
               </div>
             </a>
@@ -176,7 +187,7 @@ export default function SearchBar() {
       )}
 
       {query.length >= 3 && results.length === 0 && !loading && (
-        <p style={{ textAlign: 'center', color: '#333', fontSize: '0.85rem', marginTop: '2rem', fontFamily: "'DM Mono', monospace" }}>
+        <p style={{ textAlign: 'center', color: '#6f6f6f', fontSize: '0.85rem', marginTop: '2rem', fontFamily: "'DM Mono', monospace" }}>
           Sin resultados para "{query}"
         </p>
       )}
