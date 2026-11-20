@@ -33,6 +33,15 @@ export default function Auth() {
     setLoading(false);
   };
 
+  const handleReset = async () => {
+    if (!email) { setMessage('Escribe tu correo para enviarte el enlace.'); setIsError(true); return; }
+    setLoading(true); setMessage(''); setIsError(false);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: `${window.location.origin}/perfil` });
+    if (error) { setMessage(error.message); setIsError(true); }
+    else { setMessage('Te enviamos un enlace para crear una nueva contraseña.'); }
+    setLoading(false);
+  };
+
   return (
     <div style={{ background: '#0d0d0d', border: '1px solid #1e1e1e', borderRadius: '12px', padding: '2rem', maxWidth: '420px', margin: '0 auto' }}>
       <div style={{ marginBottom: '2rem' }}>
@@ -96,6 +105,14 @@ export default function Auth() {
             Registrarse
           </button>
         </div>
+        <button
+          type="button"
+          onClick={handleReset}
+          disabled={loading}
+          style={{ background: 'none', border: 'none', color: '#9a9a9a', fontSize: '0.78rem', cursor: 'pointer', textDecoration: 'underline', padding: 0, alignSelf: 'center', fontFamily: "'DM Sans', sans-serif" }}
+        >
+          ¿Olvidaste tu contraseña?
+        </button>
       </div>
     </div>
   );

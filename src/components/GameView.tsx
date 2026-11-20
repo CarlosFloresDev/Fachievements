@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Tracker from './Tracker';
+import SteamAchievements from './SteamAchievements';
 import type { Session } from '@supabase/supabase-js';
 import type { Manifest, GameMeta, TrophyType, Achievement } from '../lib/types';
 
@@ -30,7 +31,13 @@ export default function GameView({ session, manifest, meta, igdbId }: GameViewPr
   const [activePlaythrough, setActivePlaythrough] = useState(0);
   const [guideMode, setGuideMode] = useState<'partidas' | 'pasos'>('partidas');
   const [trophyFilter, setTrophyFilter] = useState<TrophyFilter>('all');
-  const [spoilerMode, setSpoilerMode] = useState(false);
+  const [spoilerMode, setSpoilerMode] = useState(true);
+  useEffect(() => {
+    try { const v = localStorage.getItem('fach:spoilers'); if (v !== null) setSpoilerMode(v === '1'); } catch {}
+  }, []);
+  useEffect(() => {
+    try { localStorage.setItem('fach:spoilers', spoilerMode ? '1' : '0'); } catch {}
+  }, [spoilerMode]);
   const [stepSearch, setStepSearch] = useState('');
   const [shareMsg, setShareMsg] = useState('');
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
@@ -96,7 +103,7 @@ export default function GameView({ session, manifest, meta, igdbId }: GameViewPr
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
           <button
             onClick={handleShare}
-            style={{ background: 'transparent', border: '1px solid #2a2a2a', color: shareMsg ? '#f5a623' : '#444', fontSize: '0.68rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '0.4rem 0.8rem', borderRadius: '5px', cursor: 'pointer', fontFamily: "'DM Sans', sans-serif", display: 'flex', alignItems: 'center', gap: '5px', transition: 'all 0.2s' }}
+            style={{ background: 'transparent', border: '1px solid #2a2a2a', color: shareMsg ? '#f5a623' : '#7d7d7d', fontSize: '0.68rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '0.4rem 0.8rem', borderRadius: '5px', cursor: 'pointer', fontFamily: "'DM Sans', sans-serif", display: 'flex', alignItems: 'center', gap: '5px', transition: 'all 0.2s' }}
           >
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
             {shareMsg || 'Compartir'}
@@ -121,7 +128,7 @@ export default function GameView({ session, manifest, meta, igdbId }: GameViewPr
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f5a623" strokeWidth="2" style={{ flexShrink: 0 }}><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           <div style={{ flex: 1, minWidth: '220px' }}>
             <p style={{ color: '#f0ece4', fontWeight: 700, margin: 0, fontSize: '0.95rem' }}>Todavía no hay guía de platino para este juego</p>
-            <p style={{ color: '#9a9a9a', margin: '4px 0 0', fontSize: '0.82rem' }}>Puedes ver su información y capturas. Mientras tanto, revisa los juegos que ya tienen guía completa.</p>
+            <p style={{ color: '#9a9a9a', margin: '4px 0 0', fontSize: '0.82rem' }}>Puedes ver su información y, si está en Steam, marcar tus logros en la pestaña Logros. También puedes revisar los juegos con guía completa.</p>
           </div>
           <a href="/#guias" style={{ background: '#f5a623', color: '#000', fontWeight: 700, fontSize: '0.72rem', letterSpacing: '0.08em', textTransform: 'uppercase', padding: '0.6rem 1rem', borderRadius: '6px', textDecoration: 'none' }}>Ver guías disponibles</a>
         </div>
@@ -145,7 +152,7 @@ export default function GameView({ session, manifest, meta, igdbId }: GameViewPr
 
       <div style={{ display: 'flex', background: '#0d0d0d', border: '1px solid #1e1e1e', borderRadius: '10px', padding: '4px', gap: '3px', marginBottom: '2rem', position: 'sticky', top: '62px', zIndex: 50 }}>
         {tabs.map(({ key, label, icon, badge }) => (
-          <button key={key} onClick={() => setActiveTab(key)} style={{ flex: 1, padding: '0.6rem 0.5rem', borderRadius: '7px', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', border: 'none', cursor: 'pointer', fontFamily: "'DM Sans', sans-serif", display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', transition: 'all 0.2s', background: activeTab === key ? '#f5a623' : 'transparent', color: activeTab === key ? '#000' : '#444', boxShadow: activeTab === key ? '0 2px 12px rgba(245,166,35,0.2)' : 'none', position: 'relative' }}>
+          <button key={key} onClick={() => setActiveTab(key)} style={{ flex: 1, padding: '0.6rem 0.5rem', borderRadius: '7px', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', border: 'none', cursor: 'pointer', fontFamily: "'DM Sans', sans-serif", display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', transition: 'all 0.2s', background: activeTab === key ? '#f5a623' : 'transparent', color: activeTab === key ? '#000' : '#7d7d7d', boxShadow: activeTab === key ? '0 2px 12px rgba(245,166,35,0.2)' : 'none', position: 'relative' }}>
             {icon}{label}
             {badge && (
               <span style={{ background: activeTab === key ? 'rgba(0,0,0,0.25)' : 'rgba(229,69,69,0.8)', color: activeTab === key ? '#000' : '#fff', fontSize: '0.55rem', fontWeight: 800, padding: '1px 5px', borderRadius: '99px', lineHeight: 1.4 }}>
@@ -200,7 +207,7 @@ export default function GameView({ session, manifest, meta, igdbId }: GameViewPr
             <div>
               <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
                 {(['all', 'platinum', 'gold', 'silver', 'bronze'] as const).map(f => (
-                  <button key={f} onClick={() => setTrophyFilter(f)} style={{ padding: '0.35rem 0.85rem', borderRadius: '5px', fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', border: `1px solid ${trophyFilter === f ? (f === 'all' ? '#333' : TROPHY_BORDER[f]) : '#1e1e1e'}`, background: trophyFilter === f ? (f === 'all' ? '#1a1a1a' : TROPHY_BG[f]) : 'transparent', color: trophyFilter === f ? (f === 'all' ? '#f0ece4' : TROPHY_COLOR[f]) : '#333', cursor: 'pointer', fontFamily: "'DM Sans', sans-serif" }}>
+                  <button key={f} onClick={() => setTrophyFilter(f)} style={{ padding: '0.35rem 0.85rem', borderRadius: '5px', fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', border: `1px solid ${trophyFilter === f ? (f === 'all' ? '#333' : TROPHY_BORDER[f]) : '#1e1e1e'}`, background: trophyFilter === f ? (f === 'all' ? '#1a1a1a' : TROPHY_BG[f]) : 'transparent', color: trophyFilter === f ? (f === 'all' ? '#f0ece4' : TROPHY_COLOR[f]) : '#6f6f6f', cursor: 'pointer', fontFamily: "'DM Sans', sans-serif" }}>
                     {f === 'all' ? `Todos (${counts.all})` : `${TROPHY_LABEL[f]} (${counts[f]})`}
                   </button>
                 ))}
@@ -225,7 +232,7 @@ export default function GameView({ session, manifest, meta, igdbId }: GameViewPr
               </div>
             </div>
           ) : (
-            <EmptyState title="Sin logros registrados" desc="Añade logros al manifest JSON de este juego." />
+<SteamAchievements igdbId={igdbId} session={session} />
           )}
         </div>
       )}
@@ -237,7 +244,7 @@ export default function GameView({ session, manifest, meta, igdbId }: GameViewPr
               <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', alignItems: 'center' }}>
                 <div style={{ display: 'flex', background: '#0d0d0d', border: '1px solid #1e1e1e', borderRadius: '8px', padding: '3px', gap: '3px' }}>
                   {([['partidas', 'Por partida'], ['pasos', 'Paso a paso']] as const).map(([key, label]) => (
-                    <button key={key} onClick={() => setGuideMode(key)} style={{ padding: '0.4rem 0.85rem', borderRadius: '6px', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', border: 'none', cursor: 'pointer', fontFamily: "'DM Sans', sans-serif", transition: 'all 0.2s', background: guideMode === key ? '#f5a623' : 'transparent', color: guideMode === key ? '#000' : '#444' }}>
+                    <button key={key} onClick={() => setGuideMode(key)} style={{ padding: '0.4rem 0.85rem', borderRadius: '6px', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', border: 'none', cursor: 'pointer', fontFamily: "'DM Sans', sans-serif", transition: 'all 0.2s', background: guideMode === key ? '#f5a623' : 'transparent', color: guideMode === key ? '#000' : '#7d7d7d' }}>
                       {label}
                     </button>
                   ))}
@@ -245,7 +252,7 @@ export default function GameView({ session, manifest, meta, igdbId }: GameViewPr
 
                 <button
                   onClick={() => setSpoilerMode(s => !s)}
-                  style={{ display: 'flex', alignItems: 'center', gap: '5px', background: spoilerMode ? 'rgba(245,166,35,0.1)' : 'transparent', border: `1px solid ${spoilerMode ? 'rgba(245,166,35,0.3)' : '#222'}`, color: spoilerMode ? '#f5a623' : '#444', fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '0.4rem 0.85rem', borderRadius: '6px', cursor: 'pointer', fontFamily: "'DM Sans', sans-serif", transition: 'all 0.2s' }}
+                  style={{ display: 'flex', alignItems: 'center', gap: '5px', background: spoilerMode ? 'rgba(245,166,35,0.1)' : 'transparent', border: `1px solid ${spoilerMode ? 'rgba(245,166,35,0.3)' : '#222'}`, color: spoilerMode ? '#f5a623' : '#7d7d7d', fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '0.4rem 0.85rem', borderRadius: '6px', cursor: 'pointer', fontFamily: "'DM Sans', sans-serif", transition: 'all 0.2s' }}
                 >
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     {spoilerMode
@@ -253,7 +260,7 @@ export default function GameView({ session, manifest, meta, igdbId }: GameViewPr
                       : <><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></>
                     }
                   </svg>
-                  {spoilerMode ? 'Spoilers ON' : 'Spoilers OFF'}
+                  {spoilerMode ? 'Ocultar spoilers' : 'Mostrar spoilers'}
                 </button>
 
                 <div style={{ flex: 1, minWidth: '180px', position: 'relative' }}>
@@ -290,7 +297,7 @@ export default function GameView({ session, manifest, meta, igdbId }: GameViewPr
                     {manifest.playthroughs.map((p, i) => {
                       const pMissables = p.zones.flatMap(z => z.steps).filter(s => s.type === 'missable').length;
                       return (
-                        <button key={i} onClick={() => setActivePlaythrough(i)} style={{ padding: '0.45rem 1rem', borderRadius: '6px', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.05em', border: `1px solid ${activePlaythrough === i ? 'rgba(245,166,35,0.4)' : '#222'}`, background: activePlaythrough === i ? 'rgba(245,166,35,0.1)' : 'transparent', color: activePlaythrough === i ? '#f5a623' : '#444', cursor: 'pointer', fontFamily: "'DM Sans', sans-serif", transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <button key={i} onClick={() => setActivePlaythrough(i)} style={{ padding: '0.45rem 1rem', borderRadius: '6px', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.05em', border: `1px solid ${activePlaythrough === i ? 'rgba(245,166,35,0.4)' : '#222'}`, background: activePlaythrough === i ? 'rgba(245,166,35,0.1)' : 'transparent', color: activePlaythrough === i ? '#f5a623' : '#7d7d7d', cursor: 'pointer', fontFamily: "'DM Sans', sans-serif", transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '6px' }}>
                           {p.title}
                           {pMissables > 0 && (
                             <span style={{ fontSize: '0.58rem', background: 'rgba(229,69,69,0.15)', color: '#e54545', padding: '0 5px', borderRadius: '3px', fontWeight: 800 }}>{pMissables}</span>

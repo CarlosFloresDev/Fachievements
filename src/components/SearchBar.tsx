@@ -120,7 +120,7 @@ export default function SearchBar() {
       <style>{SHIMMER_KEYFRAMES}</style>
 
       <div style={S.inputWrap}>
-        <svg style={{ position: 'absolute', left: '1.1rem', top: '50%', transform: 'translateY(-50%)', color: focused ? '#f5a623' : '#3a3a3a', transition: 'color 0.2s', pointerEvents: 'none' }} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <svg style={{ position: 'absolute', left: '1.1rem', top: '50%', transform: 'translateY(-50%)', color: focused ? '#f5a623' : '#6a6a6a', transition: 'color 0.2s', pointerEvents: 'none' }} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
         </svg>
         <input

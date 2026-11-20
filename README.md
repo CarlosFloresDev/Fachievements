@@ -10,7 +10,7 @@
 ![React](https://img.shields.io/badge/React-19-61dafb?logo=react&logoColor=black)
 ![Supabase](https://img.shields.io/badge/Supabase-Postgres-3ecf8e?logo=supabase&logoColor=white)
 ![Cloudflare](https://img.shields.io/badge/Cloudflare-Workers-f38020?logo=cloudflare&logoColor=white)
-![Version](https://img.shields.io/badge/version-1.0.0-f5a623)
+![Version](https://img.shields.io/badge/version-1.1.0-f5a623)
 
 </div>
 
@@ -24,6 +24,7 @@ Fachievements lets players search any game, open a complete platinum guide and t
 - **Complete guides** — difficulty, estimated time, minimum playthroughs, full trophy list and a route split into playthroughs → zones → steps (missable, collectible, tip, main and YouTube video steps).
 - **Progress tracking** — sign in and check off steps; progress is stored per user in Supabase with Row Level Security.
 - **Steam-style profiles** — streaks, badges, avatar frames, game showcase and a public profile at `/u/<handle>`.
+- **Any Steam game** — games without a written guide still show their full Steam achievement list (localized, with global unlock rates and hidden achievements protected) and can be tracked.
 - **Admin panel** — upload guides as JSON manifests, validated before saving.
 
 | Search | Guide |
@@ -38,6 +39,7 @@ Fachievements lets players search any game, open a complete platinum guide and t
 | Styling | Tailwind CSS 4 |
 | Data & auth | Supabase (Postgres, Auth, RLS) |
 | Game metadata | IGDB API via Twitch OAuth |
+| Achievements | Steam Web API |
 | Hosting | Cloudflare Workers (`@astrojs/cloudflare`) |
 | CI | GitHub Actions (build) |
 
@@ -77,6 +79,7 @@ Apply the database schema by running the files in `supabase/migrations/` in orde
 | `PUBLIC_SUPABASE_ANON_KEY` | client | Public anon key |
 | `SUPABASE_SERVICE_ROLE_KEY` | server | Writes from the admin panel |
 | `TWITCH_CLIENT_ID` / `TWITCH_CLIENT_SECRET` | server | IGDB access |
+| `STEAM_API_KEY` | server | Full Steam achievement lists |
 | `ADMIN_PASSWORD` | server | Protects `/admin` |
 
 ## Scripts

@@ -214,7 +214,7 @@ export default function Profile({ session }: { session: Session }) {
   }
 
   if (loading) return (
-    <div style={{ textAlign: 'center', padding: '4rem', color: '#2a2a2a', fontSize: '0.72rem', letterSpacing: '0.15em', fontFamily: "'DM Mono',monospace" }}>
+    <div style={{ textAlign: 'center', padding: '4rem', color: '#5f5f5f', fontSize: '0.72rem', letterSpacing: '0.15em', fontFamily: "'DM Mono',monospace" }}>
       Cargando perfil...
     </div>
   );
@@ -510,11 +510,11 @@ export default function Profile({ session }: { session: Session }) {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '0.5rem' }}>
           {badges.map(b => (
             <div key={b.id} title={b.description} style={{ display: 'flex', alignItems: 'center', gap: '0.7rem', background: '#0a0a0a', border: `1px solid ${b.unlocked ? accent.hex + '44' : '#141414'}`, borderRadius: '8px', padding: '0.7rem 0.9rem', opacity: b.unlocked ? 1 : 0.4 }}>
-              <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: b.unlocked ? accent.soft : '#0d0d0d', border: `1px solid ${b.unlocked ? accent.hex + '66' : '#1a1a1a'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: b.unlocked ? accent.hex : '#333', fontSize: '0.85rem', flexShrink: 0 }}>
+              <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: b.unlocked ? accent.soft : '#0d0d0d', border: `1px solid ${b.unlocked ? accent.hex + '66' : '#1a1a1a'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: b.unlocked ? accent.hex : '#6f6f6f', fontSize: '0.85rem', flexShrink: 0 }}>
                 {b.icon}
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ color: b.unlocked ? '#f0ece4' : '#444', fontSize: '0.78rem', fontWeight: 600, margin: 0 }}>{b.title}</p>
+                <p style={{ color: b.unlocked ? '#f0ece4' : '#7d7d7d', fontSize: '0.78rem', fontWeight: 600, margin: 0 }}>{b.title}</p>
                 <p style={{ color: '#7d7d7d', fontSize: '0.66rem', margin: '2px 0 0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{b.description}</p>
               </div>
             </div>

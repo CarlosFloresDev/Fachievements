@@ -54,7 +54,7 @@ export default function GamePicker({ value, onChange, label, accentHex, initialN
           ) : (
             <div style={{ width: '38px', height: '52px', background: '#161616', borderRadius: '4px', flexShrink: 0 }} />
           )}
-          <span style={{ flex: 1, color: current ? '#f0ece4' : '#444', fontSize: '0.85rem' }}>{current?.name || 'Elegir juego...'}</span>
+          <span style={{ flex: 1, color: current ? '#f0ece4' : '#7d7d7d', fontSize: '0.85rem' }}>{current?.name || 'Elegir juego...'}</span>
           {current && (
             <span
               role="button"

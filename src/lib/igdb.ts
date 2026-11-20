@@ -139,3 +139,19 @@ export async function getFeaturedGames(): Promise<FeaturedGame[]> {
     coverUrl: g.cover ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${g.cover.image_id}.jpg` : null,
   }));
 }
+
+/** App ID de Steam asociado a un juego de IGDB (fuente externa 1 = Steam). */
+export async function igdbExternalSteamId(igdbId: string | number): Promise<string | null> {
+  const id = Number(igdbId);
+  if (!Number.isInteger(id) || id <= 0) return null;
+  try {
+    const rows = await igdbQuery<{ uid: string }[]>(
+      'external_games',
+      `fields uid; where game = ${id} & external_game_source = 1; limit 1;`
+    );
+    return rows[0]?.uid ?? null;
+  } catch (e) {
+    console.error('[igdb] steam id:', e);
+    return null;
+  }
+}
