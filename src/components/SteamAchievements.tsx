@@ -57,7 +57,16 @@ export default function SteamAchievements({ igdbId, session }: Props) {
   if (data === undefined) {
     return <p style={{ color: '#8c8c8c', fontSize: '0.85rem', padding: '1rem 0' }}>Cargando logros de Steam…</p>;
   }
-  if (!data || data.achievements.length === 0) return null;
+  if (!data || data.achievements.length === 0) {
+    return (
+      <div style={{ background: '#0d0d0d', border: '1px dashed #2a2a2a', borderRadius: '10px', padding: '1.5rem 1.25rem', textAlign: 'center' }}>
+        <p style={{ color: '#f0ece4', fontSize: '0.95rem', fontWeight: 600, margin: 0 }}>Este juego no tiene logros de Steam</p>
+        <p style={{ color: '#9a9a9a', fontSize: '0.82rem', margin: '6px 0 0', lineHeight: 1.5 }}>
+          No está a la venta en Steam o su versión de Steam no incluye logros. Por ahora la lista de trofeos solo está disponible para juegos de Steam o con guía completa.
+        </p>
+      </div>
+    );
+  }
 
   const total = data.achievements.length;
   const count = data.achievements.filter(a => done.has(a.id)).length;

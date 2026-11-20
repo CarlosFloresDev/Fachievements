@@ -141,17 +141,44 @@ export async function getFeaturedGames(): Promise<FeaturedGame[]> {
 }
 
 /** App ID de Steam asociado a un juego de IGDB (fuente externa 1 = Steam). */
-export async function igdbExternalSteamId(igdbId: string | number): Promise<string | null> {
+type ExtRef = { uid?: string; external_game_source?: number };
+type GameRefs = { external_games?: ExtRef[] };
+
+function steamUids(g?: GameRefs): string[] {
+  return (g?.external_games ?? [])
+    .filter((e) => e.external_game_source === 1 && e.uid && /^\d+$/.test(e.uid))
+    .map((e) => e.uid as string);
+}
+
+/**
+ * Posibles appids de Steam para un juego de IGDB, en orden de preferencia:
+ * el propio juego, sus remasters/remakes/ports y sus ediciones (Complete, GOTY...).
+ * Devuelve también el nombre para poder buscar en la tienda de Steam como último recurso.
+ */
+export async function igdbSteamCandidates(igdbId: string | number): Promise<{ name: string; appIds: string[] } | null> {
   const id = Number(igdbId);
   if (!Number.isInteger(id) || id <= 0) return null;
+  const ext = 'external_games.uid, external_games.external_game_source';
   try {
-    const rows = await igdbQuery<{ uid: string }[]>(
-      'external_games',
-      `fields uid; where game = ${id} & external_game_source = 1; limit 1;`
-    );
-    return rows[0]?.uid ?? null;
+    const [games, versions] = await Promise.all([
+      igdbQuery<(GameRefs & { name: string; remasters?: GameRefs[]; remakes?: GameRefs[]; ports?: GameRefs[] })[]>(
+        'games',
+        `fields name, ${ext}, remasters.${ext.replace(', ', ', remasters.')}, remakes.${ext.replace(', ', ', remakes.')}, ports.${ext.replace(', ', ', ports.')}; where id = ${id};`
+      ),
+      igdbQuery<GameRefs[]>('games', `fields ${ext}; where version_parent = ${id}; limit 20;`),
+    ]);
+    const g = games[0];
+    if (!g) return null;
+    const ordered = [
+      ...steamUids(g),
+      ...(g.remasters ?? []).flatMap(steamUids),
+      ...(g.remakes ?? []).flatMap(steamUids),
+      ...versions.flatMap(steamUids),
+      ...(g.ports ?? []).flatMap(steamUids),
+    ];
+    return { name: g.name, appIds: [...new Set(ordered)] };
   } catch (e) {
-    console.error('[igdb] steam id:', e);
+    console.error('[igdb] steam candidates:', e);
     return null;
   }
 }
